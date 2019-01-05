@@ -22,14 +22,11 @@ class TaskItem extends Component {
   }
 
   _onPress = () => {
-    // this.props.navigation.navigate('Timer')
-    // console.log(this.props.data)
     this.props.taskStore.setCurrentTask(this.props.data);
     this.props.navigation.navigate('Timer', {task: this.props.data});
   }
 
   render() { 
-    console.log(this.props.data);
     const { project, category, name, time } = this.props.data;
     const buttons = [{
       text: "Edit",

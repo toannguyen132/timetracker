@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, StyleSheet, Text } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -6,14 +7,18 @@ import moment from 'moment';
 import { toReadbleTime } from '../lib/helper';
 
 class Timer extends Component {
+  static propTypes = {
+    onTimeChange: PropTypes.func,
+    defaultValue: PropTypes.number
+  }
+
   state = { 
     startTime: null,
-    accumulate: this.props.defaultValue || 0,
     counter: 0,
   };
 
-  componentDidMount() {
-    console.log(this.props.defaultValue);
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   _onToggle = () => {
@@ -23,21 +28,24 @@ class Timer extends Component {
         startTime: new Date(),
       })
 
-      this.timer = setInterval(this._updateTime, 1000);
+      this._updateTime();
     } else {
+      if (this.time) { clearTimeout(this.timer); }
       const duration = this._getDuration();
+      const accumulate = this.props.defaultValue + Math.floor(duration.asSeconds());
       this.setState({
         startTime: null,
-        accumulate: this.state.accumulate + Math.floor(duration.asSeconds()),
-        counter: 0
       });
+      this.props.onTimeChange(accumulate);
     }
   }
 
   _updateTime = () => {
+    this.timer = setTimeout(this._updateTime, 1000);
+
     const duration = this._getDuration();
     this.setState({
-      counter: this.state.accumulate + duration.asSeconds()
+      counter: this.props.defaultValue + duration.asSeconds()
     });
   }
 
@@ -51,8 +59,8 @@ class Timer extends Component {
   }
 
   _getTime = () => {
-    // let duration = moment.duration(this.state.accumulate, 'seconds');
-    let duration = this.state.accumulate;
+    // let duration = moment.duration(this.props.defaultValue, 'seconds');
+    let duration = this.props.defaultValue;
 
     if (this._isRunning && this.state.counter > 0){
       // duration = moment.duration(this.state.counter, 'seconds');

@@ -9,7 +9,27 @@ import TaskStore from '../store/task';
 
 @observer
 class TimerScreen extends Component {
+  state = {  }
 
+  componentWillUnmount() {
+    this.props.taskStore.setCurrentTask(null);
+  }
+
+  _onTimeChange = (value) => {
+    this.props.taskStore.updateTaskTime(value);
+  }
+
+  render() { 
+    const { time } = this.props.taskStore.currentTask;
+    return ( 
+    <View>
+      <Timer defaultValue={time} onTimeChange={this._onTimeChange} />
+    </View>
+    );
+  }
+}
+
+class TimerScreenWrapper extends Component {
   static navigationOptions = ({navigation}) => {
     let title = 'Task';
     try {
@@ -22,22 +42,9 @@ class TimerScreen extends Component {
     }
   };
 
-  state = {  }
-
-  _onChange = (value) => {
-    console.log('new value: ', value);
-  }
-
-  render() { 
-    const { time } = TaskStore.currentTask;
-    console.log(JSON.stringify(TaskStore.currentTask));
-    console.log(time);
-    return ( 
-    <View>
-      <Timer defaultValue={time} onChange={this._onChange} />
-    </View>
-    );
+  render() {
+    return <TimerScreen {...this.props} taskStore={TaskStore} />
   }
 }
  
-export default TimerScreen;
+export default TimerScreenWrapper;

@@ -4,12 +4,14 @@ import {createStackNavigator, createAppContainer} from 'react-navigation';
 import HomeScreen from './screens/HomeScreen';
 import TimerScreen from './screens/TimerScreen';
 import ProjectScreen from './screens/ProjectScreen';
+import TaskEditorScreen from './screens/TaskEditorScreen';
 import { MenuProvider } from 'react-native-popup-menu';
 
 const AppNavigator = createStackNavigator({
   Home: {screen: HomeScreen},
   Project: {screen: ProjectScreen},
   Timer: {screen: TimerScreen},
+  TaskEditor: {screen: TaskEditorScreen}
 });
 const AppContainer = createAppContainer(AppNavigator)
 

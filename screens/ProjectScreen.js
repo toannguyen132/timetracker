@@ -24,10 +24,11 @@ class MenuRight extends Component {
 
   _onSelected = (value) => {
     const navigation = this.props.navigation;
+    const project = navigation.getParam('project');
     if (value === ADD) {
-      navigation.navigate('Timer', {});
+      navigation.navigate('TaskEditor', {project});
     } else if (value === EDIT) {
-      navigation.navigate('Timer', {project: navigation.getParam('project')}); 
+      navigation.navigate('Timer', {project}); 
     } else if (value === DELETE) {
       // TODO: delete item
     }

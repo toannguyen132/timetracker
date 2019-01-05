@@ -44,8 +44,27 @@ class TaskList {
     }
   }
 
+  /**
+   * single Task
+   */
   setCurrentTask(task) {
+    if (task && task.id) {
+      taskService.addListener(task.id, (newtask) => {
+        console.log('new time: ', newtask.time);
+        this.currentTask = newtask;
+      });
+    } else if (this.currentTask.id){
+      taskService.removeListener(this.currentTask.id);
+    }
+
     this.currentTask = task
+  }
+
+  updateTaskTime(newTime) {
+    taskService.updateTime(this.currentTask.id, newTime)
+      .then(() => {
+        this.currentTask.time = newTime;
+      });
   }
 
 }

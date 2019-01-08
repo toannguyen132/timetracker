@@ -3,6 +3,7 @@ import projectService from './project';
 import faker from 'faker';
 
 const services = {
+  
   async _process(tasks) {
     const projects = await Promise.all(tasks.map(task => {
       return projectService.findOne(task.projectId);
@@ -13,6 +14,7 @@ const services = {
       return task;
     });
   },
+
   async fetchByProject(id) {
     const tasks = await new Promise((res, rej) => {
       try {

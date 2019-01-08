@@ -5,9 +5,13 @@ class ProjectList {
   @observable projects = [];
   @observable currentProject = null;
 
-  async fetchProjects() {
-    const projects = await projectService.fetch();
-    this.projects = Object.values(projects);
+  fetchProjects() {
+    projectService.fetch()
+      .then((projects) => {
+        console.log(projects);
+        this.projects = Object.values(projects);
+        return projects
+      })
   }
 
   setCurrentProject(id) {

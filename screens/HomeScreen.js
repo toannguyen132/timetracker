@@ -13,7 +13,12 @@ class HomeScreen extends Component {
 
   _onPress = (project) => {
     const { navigate } = this.props.navigation;
-    this.props.store.setCurrentProject(project.id);
+    try{
+      this.props.store.setCurrentProject(project.id);
+    } catch (e) {
+      console.error(e);
+      console.log(e.message);
+    }
     navigate('Project', {project})
   }
 

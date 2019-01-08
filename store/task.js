@@ -50,7 +50,6 @@ class TaskList {
   setCurrentTask(task) {
     if (task && task.id) {
       taskService.addListener(task.id, (newtask) => {
-        console.log('new time: ', newtask.time);
         this.currentTask = newtask;
       });
     } else if (this.currentTask.id){

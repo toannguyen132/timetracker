@@ -8,7 +8,10 @@ import ProjectStore from '../store/project';
 class HomeScreen extends Component {
 
   componentDidMount() {
-    this.props.store.fetchProjects();
+    this.props.store.fetchProjects()
+      .catch(e => {
+        console.error(e.message);
+      });
   }
 
   _onPress = (project) => {

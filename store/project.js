@@ -6,9 +6,8 @@ class ProjectList {
   @observable currentProject = null;
 
   fetchProjects() {
-    projectService.fetch()
+    return projectService.fetch()
       .then((projects) => {
-        console.log(projects);
         this.projects = Object.values(projects);
         return projects
       })

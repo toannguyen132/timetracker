@@ -1,4 +1,4 @@
-import { taskRef } from './service';
+import api from './service';
 import projectService from './project';
 import faker from 'faker';
 
@@ -15,30 +15,10 @@ const services = {
     });
   },
 
-  async fetchByProject(id) {
-    const tasks = await new Promise((res, rej) => {
-      try {
-        taskRef.on('value', (snap) => {
-          const data = snap.val()
-          const tasks = Object.keys(data).map(key => {
-            return {
-              id: key,
-              ...data[key]
-            }
-          });
-          res(tasks);
-        });
-      } catch (e) {
-        rej(e.message);
-      }
-    });
-
-    const filteredTasks = tasks.filter(task => task.projectId == id);
-
-    const results = await this._process(filteredTasks);
-
-    return results;
+  fetchByProject(id) {
+    return api.get(`/api/projects/${id}/tasks`)    
   },
+  
   fetchAll() {
 
   },
